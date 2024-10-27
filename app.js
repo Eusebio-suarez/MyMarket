@@ -154,9 +154,33 @@ const products = [
     {
         id:20,  
         name: 'New Era Chicago Sox ',
-        img: '/Assets/Image/cap20.jpg',
+        img: '/Assets/Image/cap20.jfif',
         description: 'Gorra New Era chicago Sox color blanco con rosas modelo 59Fifty',
         stok:3,
         price:54999
     },
 ]
+
+const container = document.getElementById('product-container');
+
+function renderProducts() {
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('card');
+
+        productCard.innerHTML = `
+            <img class="card-img-top" src="${product.img}" alt="${product.name}">
+            <div class="card-body">
+                <h1 class="h5 card-title">${product.name}</h1>
+                    <p class="card-text">${product.description}</p>
+                    <h3 class="h5 card-text">$${product.price}</h3>
+                <button class="btn btn-success" onclick="addToCart(${product.id})">Añadir al Carrito</button>
+            </div>
+        `;
+
+        container.appendChild(productCard);
+    });
+}
+ 
+
+renderProducts();
