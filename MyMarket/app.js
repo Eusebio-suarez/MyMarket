@@ -162,160 +162,25 @@ const products = [
 ]
 
 const container = document.getElementById('product-container');
-const carContainer = document.getElementById('carContainer');
-document.getElementById('generateOrderButton').addEventListener('click', generateOrder);
-
-let cart = [];
 
 function renderProducts() {
     products.forEach(product => {
         const productCard = document.createElement('div');
-        productCard.classList.add('card', 'mb-3');
+        productCard.classList.add('card');
 
         productCard.innerHTML = `
             <img class="card-img-top" src="${product.img}" alt="${product.name}">
             <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <h6 class="card-text">$${product.price}</h6>
-                <button class="btn btn-success" data-id="${product.id}">Añadir al Carrito</button>
+                <h1 class="h5 card-title">${product.name}</h1>
+                    <p class="card-text">${product.description}</p>
+                    <h3 class="h5 card-text">$${product.price}</h3>
+                <button class="btn btn-success" onclick="addToCart(${product.id})">Añadir al Carrito</button>
             </div>
         `;
 
         container.appendChild(productCard);
     });
-
-    const shopButtons = document.querySelectorAll('.btn-success');
-    shopButtons.forEach(button => {
-        button.addEventListener('click', addToCart);
-    });
 }
-
-function addToCart(event) {
-    const productId = parseInt(event.target.getAttribute('data-id'));
-    const product = products.find(p => p.id === productId);
-
-    if (!product) return;
-
-    const cartItem = cart.find(item => item.id === productId);
-
-    if (cartItem) {
-        if (cartItem.quantity < product.stok) {
-            cartItem.quantity++;
-        } else {
-            alert("No hay suficiente stock para agregar más de este producto.");
-        }
-    } else {
-        cart.push({ ...product, quantity: 1 });
-    }
-
-    renderCart();
-}
-
-function renderCart() {
-    carContainer.innerHTML = '';
-
-    cart.forEach(item => {
-        const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item');
-
-        cartItem.innerHTML = `
-            <h5>${item.name}</h5>
-            <p>Precio: $${item.price}</p>
-            <p>Cantidad: ${item.quantity}</p>
-            <p>Total: $${item.price * item.quantity}</p>
-            <button class="btn btn-primary" onclick="increaseQuantity(${item.id})">+</button>
-            <button class="btn btn-primary" onclick="decreaseQuantity(${item.id})">-</button>
-            <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Eliminar</button>
-        `;
-
-        carContainer.appendChild(cartItem);
-    });
-
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const totalDiv = document.createElement('div');
-    totalDiv.classList.add('cart-total');
-    totalDiv.innerHTML = `<h3>Total: $${total}</h3>`;
-    carContainer.appendChild(totalDiv);
-}
-
-function increaseQuantity(productId) {
-    const cartItem = cart.find(item => item.id === productId);
-    const product = products.find(p => p.id === productId);
-
-    if (cartItem && product && cartItem.quantity < product.stok) {
-        cartItem.quantity++;
-        renderCart();
-    } else {
-        alert("No hay suficiente stock para aumentar la cantidad.");
-    }
-}
-
-function decreaseQuantity(productId) {
-    const cartItem = cart.find(item => item.id === productId);
-    
-    if (cartItem && cartItem.quantity > 1) {
-        cartItem.quantity--;
-    } else {
-        cart = cart.filter(item => item.id !== productId);
-    }
-
-    renderCart();
-}
-
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    renderCart();
-}
-
-function generateOrder() {
-    if (cart.length === 0) {
-        alert("El carrito está vacío. No puedes generar una orden de compra.");
-        return;
-    }
-
-    const orderDetails = cart.map(item => {
-        return {
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-            total: item.price * item.quantity
-        };
-    });
-
-    const totalOrderAmount = orderDetails.reduce((acc, item) => acc + item.total, 0);
-
-    console.log("Detalles de la Orden de Compra:", orderDetails);
-    console.log("Total de la Orden:", totalOrderAmount);
-
-    displayOrder(orderDetails, totalOrderAmount);
-}
-
-function displayOrder(orderDetails, total) {
-    const orderContainer = document.getElementById('orderContainer');
-    orderContainer.innerHTML = '';
-
-    const orderTitle = document.createElement('h2');
-    orderTitle.textContent = "Detalles de la Orden de Compra";
-    orderTitle.classList.add('card-title');
-
-    orderContainer.appendChild(orderTitle);
-
-    orderDetails.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('cart-total');
-
-        itemElement.innerHTML = `
-            <p class="card-text">${item.name} - Cantidad: ${item.quantity} - Precio: $${item.price} - Total: $${item.total}</p>
-        `;
-        orderContainer.appendChild(itemElement);
-    });
-
-    const totalElement = document.createElement('h3');
-    totalElement.textContent = `Total de la Orden: $${total}`;
-    orderContainer.appendChild(totalElement);
-}
-
+ 
 
 renderProducts();
