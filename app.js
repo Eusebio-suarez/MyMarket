@@ -155,6 +155,7 @@ const products = [
         id:20,  
         name: 'New Era Chicago Sox ',
         img: '/Assets/Image/cap20.jfif',
+        img: '/Assets/Image/cap20.jfif',
         description: 'Gorra New Era chicago Sox color blanco con rosas modelo 59Fifty',
         stok:3,
         price:54999

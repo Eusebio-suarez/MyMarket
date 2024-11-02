@@ -20,6 +20,7 @@
 }
 
 #car-img{
+#car-img{
     width: 5rem;
     height: 100%;
 }
@@ -28,6 +29,7 @@ header{
     height: 4.5rem;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     justify-content: space-evenly;
     background-color: #f3f3f3;
 }
@@ -60,6 +62,7 @@ main{
     color: rgb(0, 72, 255);
 }
 
+#product-container{
 #product-container{
     display: flex;
     flex-wrap: wrap;
