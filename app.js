@@ -317,5 +317,4 @@ function displayOrder(orderDetails, total) {
     orderContainer.appendChild(totalElement);
 }
 
-
 renderProducts();
